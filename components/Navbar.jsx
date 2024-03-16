@@ -2,7 +2,6 @@
 import { MdCancel } from "react-icons/md";
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import LoginPage from "./LoginPage";
 import axios from "axios";
 
 const Navbar = () => {
@@ -22,7 +21,6 @@ const Navbar = () => {
   const loginSubmit = async (e) => {
     e.preventDefault();
     const url = "https://learnkoodsapi.onrender.com/user_api/";
-
     try {
       const config = {
         headers: {
@@ -43,9 +41,6 @@ const Navbar = () => {
     }
   };
 
-  const Login = () => {
-    return <LoginPage handleClick={handleClick} />;
-  };
   return (
     <>
       <header className="w-full z-10">
@@ -100,10 +95,11 @@ const Navbar = () => {
               <div className="flex ">
                 <div className="">
                   <form onSubmit={loginSubmit}>
-                    <h1>Register User</h1>
+                    <h1 className="font-bold mb-8">Register User</h1>
                     <div>
-                      <label htmlFor="">Username</label>
+                      <label className="font-semibold mr-5">Username</label>
                       <input
+                        className="border p-2 rounded-lg mb-4"
                         type="text"
                         name="username"
                         id="username"
@@ -113,8 +109,9 @@ const Navbar = () => {
                       />
                     </div>
                     <div>
-                      <label htmlFor="">First Name</label>
+                      <label className="font-semibold mr-4">First Name</label>
                       <input
+                        className="border p-2 rounded-lg mb-4"
                         type="text"
                         name="firstname"
                         id="firstname"
@@ -124,8 +121,9 @@ const Navbar = () => {
                       />
                     </div>
                     <div>
-                      <label htmlFor="">Last Name</label>
+                      <label className="font-semibold mr-4">Last Name</label>
                       <input
+                        className="border p-2 rounded-lg mb-4"
                         type="text"
                         name="lastname"
                         id="lastname"
@@ -135,8 +133,9 @@ const Navbar = () => {
                       />
                     </div>
                     <div>
-                      <label htmlFor="">Email</label>
+                      <label className="font-semibold mr-14">Email</label>
                       <input
+                        className="border p-2 rounded-lg mb-4"
                         type="email"
                         name="email"
                         id="email"
@@ -146,8 +145,9 @@ const Navbar = () => {
                       />
                     </div>
                     <div>
-                      <label htmlFor="">Password</label>
+                      <label className="font-semibold mr-5">Password</label>
                       <input
+                        className="border p-2 rounded-lg mb-6"
                         type="password"
                         name="password"
                         id="password "
@@ -156,10 +156,12 @@ const Navbar = () => {
                         onChange={(e) => setPassword(e.target.value)}
                       />
                     </div>
-                    <button type="submit">Register</button>
+                    <div className="flex justify-center border p-2 bg-sky-500 rounded-lg text-white ">
+                      <button type="submit">Register</button>
+                    </div>
                   </form>
                 </div>
-                <div className="">
+                <div className=" ">
                   <button className="model-btn" onClick={handleClick}>
                     <MdCancel />
                   </button>
@@ -169,7 +171,7 @@ const Navbar = () => {
           </>
         )}
       </div>
-      <div className="">{loginModal && <Login />}</div>
+      <div className="">{loginModal && <></>}</div>
     </>
   );
 };

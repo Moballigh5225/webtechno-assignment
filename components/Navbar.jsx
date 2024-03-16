@@ -12,6 +12,8 @@ const Navbar = () => {
   const [email, setEmail] = useState();
   const [firstName, setFirstName] = useState();
   const [lastName, setLastName] = useState();
+  const [loginUsername, setLoginUsername] = useState();
+  const [loginPass, setLoginPass] = useState();
 
   const handleClick = () => {
     setShowModal(false);
@@ -171,7 +173,55 @@ const Navbar = () => {
           </>
         )}
       </div>
-      <div className="">{loginModal && <></>}</div>
+      <div className="">
+        {loginModal && (
+          <>
+            <div className="modal-wrapper"></div>
+            <div className="modal-container">
+              <div className="flex ">
+                <div className="">
+                  <form onSubmit={loginSubmit}>
+                    <h1 className="font-bold mb-8">Login User</h1>
+                    <div>
+                      <label className="font-semibold mr-5">Username</label>
+                      <input
+                        className="border p-2 rounded-lg mb-4"
+                        type="text"
+                        name="username"
+                        id="username"
+                        placeholder="Enter Username"
+                        value={loginUsername}
+                        onChange={(e) => setLoginUsername(e.target.value)}
+                      />
+                    </div>
+
+                    <div>
+                      <label className="font-semibold mr-5">Password</label>
+                      <input
+                        className="border p-2 rounded-lg mb-6"
+                        type="password"
+                        name="password"
+                        id="password "
+                        placeholder="Enter Password"
+                        value={loginPass}
+                        onChange={(e) => setLoginPass(e.target.value)}
+                      />
+                    </div>
+                    <div className="flex justify-center border p-2 bg-sky-500 rounded-lg text-white ">
+                      <button type="submit">Login</button>
+                    </div>
+                  </form>
+                </div>
+                <div className=" ">
+                  <button className="model-btn" onClick={handleClick}>
+                    <MdCancel />
+                  </button>
+                </div>
+              </div>
+            </div>
+          </>
+        )}
+      </div>
     </>
   );
 };

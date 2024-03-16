@@ -38,8 +38,6 @@ const MainContent = () => {
     (job) => job.job_title.toLowerCase().indexOf(query.toLowerCase()) !== -1
   );
 
-  console.log(filteredItems, "filtered");
-
   // filter by location
 
   // salary based filter
@@ -65,7 +63,7 @@ const MainContent = () => {
           parseInt(max_salary) <= parseInt(selected) || "number"
       );
     }
-    console.log(filteredJobs, "filtered jobs");
+
     return filteredJobs?.map((data, i) => <Card key={i} data={data} />);
   };
 

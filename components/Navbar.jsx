@@ -14,21 +14,41 @@ const Navbar = () => {
   const [lastName, setLastName] = useState();
   const [loginUsername, setLoginUsername] = useState();
   const [loginPass, setLoginPass] = useState();
+  const [users, setUsers] = useState();
 
   const handleClick = () => {
     setShowModal(false);
     setLoginModal(false);
   };
 
-  const loginSubmit = async (e) => {
+  const LoginSubmit = async (e) => {
+    e.preventDefault();
+    const url = "https://learnkoodsapi.onrender.com/login_api/";
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    const response = await axios.post(
+      url,
+      {
+        username: loginUsername,
+        password: loginPass,
+      },
+      config
+    );
+    const { access_token, refresh_token } = response.data;
+    console.log(access_token, refresh_token, "tokens");
+    console.log(response, "login response ");
+    // Here you can save the tokens in localStorage or session storage
+    localStorage.setItem("accessToken", access_token);
+    localStorage.setItem("refreshToken", refresh_token);
+  };
+
+  const RegisterSubmit = async (e) => {
     e.preventDefault();
     const url = "https://learnkoodsapi.onrender.com/user_api/";
     try {
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      };
       const body = JSON.stringify({
         username: username,
         first_name: firstName,
@@ -36,8 +56,8 @@ const Navbar = () => {
         email: email,
         password: password,
       });
-      const res = await axios.post(url, body, config);
-      console.log(res.data);
+      const res = await axios.post(url, body);
+      console.log(res, "register");
     } catch (err) {
       console.error(err.response.data);
     }
@@ -96,7 +116,7 @@ const Navbar = () => {
             <div className="modal-container">
               <div className="flex ">
                 <div className="">
-                  <form onSubmit={loginSubmit}>
+                  <form onSubmit={RegisterSubmit}>
                     <h1 className="font-bold mb-8">Register User</h1>
                     <div>
                       <label className="font-semibold mr-5">Username</label>
@@ -180,7 +200,7 @@ const Navbar = () => {
             <div className="modal-container">
               <div className="flex ">
                 <div className="">
-                  <form onSubmit={loginSubmit}>
+                  <form onSubmit={LoginSubmit}>
                     <h1 className="font-bold mb-8">Login User</h1>
                     <div>
                       <label className="font-semibold mr-5">Username</label>

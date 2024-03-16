@@ -4,7 +4,6 @@ import { CiClock2 } from "react-icons/ci";
 import { MdOutlineAttachMoney } from "react-icons/md";
 import { CiBookmark } from "react-icons/ci";
 const Card = ({ data }) => {
-  console.log(data);
   return (
     <>
       <div className="p-8 w-full">

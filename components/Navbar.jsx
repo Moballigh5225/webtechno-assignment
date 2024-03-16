@@ -43,6 +43,7 @@ const Navbar = () => {
     // Here you can save the tokens in localStorage or session storage
     localStorage.setItem("accessToken", access_token);
     localStorage.setItem("refreshToken", refresh_token);
+    setLoginModal(false);
   };
 
   const RegisterSubmit = async (e) => {

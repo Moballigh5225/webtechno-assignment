@@ -16,6 +16,7 @@ const Navbar = () => {
   const [loginPass, setLoginPass] = useState();
   const [users, setUsers] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isRegistered, setIsRegistered] = useState(false);
 
   const handleClick = () => {
     setShowModal(false);
@@ -54,7 +55,14 @@ const Navbar = () => {
 
   const RegisterSubmit = async (e) => {
     e.preventDefault();
-    const url = "https://learnkoodsapi.onrender.com/user_api/";
+    setShowModal(false);
+    setIsRegistered(true);
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    const url = " https://learnkoods-task.onrender.com/user_api/";
     try {
       const body = JSON.stringify({
         username: username,
@@ -63,10 +71,12 @@ const Navbar = () => {
         email: email,
         password: password,
       });
-      const res = await axios.post(url, body);
+      const res = await axios.post(url, body, config);
+      setIsAuthenticated(true);
+      setShowModal(false);
       console.log(res, "register");
     } catch (err) {
-      console.error(err.response.data);
+      console.error(err);
     }
   };
 
@@ -111,9 +121,13 @@ const Navbar = () => {
                 <button onClick={() => setLoginModal(true)}>Login</button>
               </li>
             )}
-            <li className="text-[#1967d2] bg-[#e2eaf8] border-0 px-2 py-2 rounded-lg font-normal text-[15px] hover:bg-gray-400 active:bg-gray-400 focus:outline-none focus:ring focus:ring-violet-300 ">
-              <button onClick={() => setShowModal(true)}>Register</button>
-            </li>
+            {isRegistered ? (
+              <p></p>
+            ) : (
+              <li className="text-[#1967d2] bg-[#e2eaf8] border-0 px-2 py-2 rounded-lg font-normal text-[15px] hover:bg-gray-400 active:bg-gray-400 focus:outline-none focus:ring focus:ring-violet-300 ">
+                <button onClick={() => setShowModal(true)}>Register</button>
+              </li>
+            )}
             <li className="text-white bg-[#1967d2]  border-0 p-2 rounded-lg font-normal text-[15px] hover:bg-violet-600 active:bg-violet-700 focus:outline-none focus:ring focus:ring-violet-300 ">
               <Link href="/">Job Post</Link>
             </li>

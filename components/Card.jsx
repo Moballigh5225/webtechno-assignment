@@ -25,13 +25,13 @@ const Card = ({ data }) => {
               </svg>
             </div>
             <div className="">
-              <p className="mb-4 font-bold">{data.job_title}</p>
+              <p className="mb-4 font-bold">{data.title}</p>
               <div className="flex mb-3 ">
                 <div className="flex justify-center items-center ">
                   <div className="mr-2 ">
                     <SlBriefcase />
                   </div>
-                  <div className="mr-6 text-[#B7B7B7]">Segment</div>
+                  <div className="mr-6 text-[#B7B7B7]">{data.company}</div>
                 </div>
                 <div className="flex justify-center items-center">
                   <div className="mr-2">
@@ -56,7 +56,7 @@ const Card = ({ data }) => {
               </div>
               <div className="flex space-x-4">
                 <div className=" flex justify-center item-center  border rounded-full w-22 text-sm py-2 px-4 bg-[#DBE9F8] text-[#1967d2]">
-                  {data.job_type || "Full Time"}
+                  {data.type || "Full Time"}
                 </div>
                 <div className="flex justify-center item-center  border rounded-full w-22 text-sm py-2 px-4 bg-[#DFF2E6] text-[#34a853]">
                   {data.exp_required || "private"}

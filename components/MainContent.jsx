@@ -1,4 +1,5 @@
 "use client";
+
 import { useEffect, useState } from "react";
 import JobsFilter from "./JobsFilter";
 import JobsList from "./JobsList";
@@ -10,20 +11,26 @@ const MainContent = () => {
   const [jobs, setJobs] = useState([]);
   const [query, setQuery] = useState("");
   const [city, setCity] = useState("");
-  const fetchJobs = async () => {
-    try {
-      const response = await axios.get(
-        "https://learnkoodsapi.onrender.com/jobs_api/"
-      );
+  const url = "https://learnkoods-task.onrender.com";
 
-      setJobs(response.data);
-    } catch (error) {
-      console.error("error message:", error);
-    }
+  const axiosInstance = axios.create({
+    baseURL: url,
+  });
+  // axiosInstance.defaults.headers.post["Content-Type"] = "application/json";
+  axios.defaults.headers.post["Content-Type"] =
+    "application/x-www-form-urlencoded";
+
+  const fetchData = async () => {
+    const response = await axiosInstance.get("/job_api/");
+    const data = response.data;
+    console.log(data, "data");
+    setJobs(data);
   };
-  useEffect(() => {
-    fetchJobs();
+
+  useEffect((e) => {
+    fetchData();
   }, []);
+  console.log(jobs, "job");
 
   const handleInputChange = (e) => {
     setQuery(e.target.value);
@@ -35,7 +42,7 @@ const MainContent = () => {
 
   // filter job by title
   const filteredItems = jobs?.results?.filter(
-    (job) => job.job_title.toLowerCase().indexOf(query.toLowerCase()) !== -1
+    (job) => job.title.toLowerCase().indexOf(query.toLowerCase()) !== -1
   );
 
   // filter by location

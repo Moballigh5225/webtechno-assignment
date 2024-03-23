@@ -14,7 +14,8 @@ const Navbar = () => {
   const [lastName, setLastName] = useState();
   const [loginUsername, setLoginUsername] = useState();
   const [loginPass, setLoginPass] = useState();
-  const [users, setUsers] = useState();
+  const [users, setUsers] = useState("");
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const handleClick = () => {
     setShowModal(false);
@@ -23,7 +24,7 @@ const Navbar = () => {
 
   const LoginSubmit = async (e) => {
     e.preventDefault();
-    const url = "https://learnkoodsapi.onrender.com/login_api/";
+    const url = "https://learnkoods-task.onrender.com/login_api/";
     const config = {
       headers: {
         "Content-Type": "application/json",
@@ -37,12 +38,17 @@ const Navbar = () => {
       },
       config
     );
-    const { access_token, refresh_token } = response.data;
-    console.log(access_token, refresh_token, "tokens");
-    console.log(response, "login response ");
+
+    setUsers(response.data.data.username);
+    const data = await response.data.data;
+    const accessToken = data.access;
+    const refreshToken = data.refresh;
+    console.log(accessToken, refreshToken, "tokens");
+    console.log(data, "login response ");
     // Here you can save the tokens in localStorage or session storage
-    localStorage.setItem("accessToken", access_token);
-    localStorage.setItem("refreshToken", refresh_token);
+    localStorage.setItem("accessToken", JSON.stringify(accessToken));
+    localStorage.setItem("refreshToken", JSON.stringify(accessToken));
+    setIsAuthenticated(true);
     setLoginModal(false);
   };
 
@@ -74,7 +80,7 @@ const Navbar = () => {
           >
             Learnkoods
           </Link>
-          <ul className="flex space-x-6 mr-10 ">
+          <ul className="flex space-x-6  ">
             <li>
               <Link href="/">Home</Link>
             </li>
@@ -94,13 +100,17 @@ const Navbar = () => {
               <Link href="/">About Us</Link>
             </li>
           </ul>
-          <ul className="flex space-x-4  ">
+          <ul className="flex space-x-4 justify-center items-center ml-5   ">
             <li className="text-[#1967d2] font-normal text-[15px]">
               <Link href="/">Upload your CV</Link>
             </li>
-            <li className="text-[#1967d2] bg-[#e2eaf8] border-0 px-2 py-2 rounded-lg font-normal text-[15px] hover:bg-gray-400 active:bg-gray-400 focus:outline-none focus:ring focus:ring-violet-300 ">
-              <button onClick={() => setLoginModal(true)}>Login</button>
-            </li>
+            {isAuthenticated ? (
+              <p className="user-username">{users}</p>
+            ) : (
+              <li className="text-[#1967d2] bg-[#e2eaf8] border-0 px-2 py-2 rounded-lg font-normal text-[15px] hover:bg-gray-400 active:bg-gray-400 focus:outline-none focus:ring focus:ring-violet-300 ">
+                <button onClick={() => setLoginModal(true)}>Login</button>
+              </li>
+            )}
             <li className="text-[#1967d2] bg-[#e2eaf8] border-0 px-2 py-2 rounded-lg font-normal text-[15px] hover:bg-gray-400 active:bg-gray-400 focus:outline-none focus:ring focus:ring-violet-300 ">
               <button onClick={() => setShowModal(true)}>Register</button>
             </li>
@@ -201,7 +211,7 @@ const Navbar = () => {
             <div className="modal-container">
               <div className="flex ">
                 <div className="">
-                  <form onSubmit={LoginSubmit}>
+                  <form className="" onSubmit={LoginSubmit}>
                     <h1 className="font-bold mb-8">Login User</h1>
                     <div>
                       <label className="font-semibold mr-5">Username</label>
@@ -228,7 +238,7 @@ const Navbar = () => {
                         onChange={(e) => setLoginPass(e.target.value)}
                       />
                     </div>
-                    <div className="flex justify-center border p-2 bg-sky-500 rounded-lg text-white ">
+                    <div className="flex justify-center border  bg-sky-500 rounded-lg text-white ">
                       <button type="submit">Login</button>
                     </div>
                   </form>

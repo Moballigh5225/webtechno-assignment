@@ -103,3 +103,13 @@ body.active-modal {
 .model-btn:hover {
   transform: scale(1);
 }
+
+.user-username {
+  font-size: 15px;
+  border: 1px solid;
+  font-weight: 700;
+  border-radius: 20%;
+  color: white;
+  padding: 4px;
+  background: rgb(25 103 209);
+}

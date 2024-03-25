@@ -3,6 +3,7 @@ import { MdCancel } from "react-icons/md";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const Navbar = () => {
   const [showModal, setShowModal] = useState(false);

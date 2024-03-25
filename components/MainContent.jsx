@@ -11,12 +11,14 @@ const MainContent = () => {
   const [jobs, setJobs] = useState([]);
   const [query, setQuery] = useState("");
   const [city, setCity] = useState("");
-  const url = "https://learnkoods-task.onrender.com";
+  const [url, setUrl] = useState("https://learnkoods-task.onrender.com");
+
+  // const url = "https://learnkoods-task.onrender.com";
 
   const axiosInstance = axios.create({
     baseURL: url,
   });
-  // axiosInstance.defaults.headers.post["Content-Type"] = "application/json";
+  axiosInstance.defaults.headers.post["Content-Type"] = "application/json";
   axios.defaults.headers.post["Content-Type"] =
     "application/x-www-form-urlencoded";
 
@@ -30,7 +32,13 @@ const MainContent = () => {
   useEffect((e) => {
     fetchData();
   }, []);
-  console.log(jobs, "job");
+
+  // // const handleNext = (e) => {
+  // //   e.preventDefault();
+  // //   setUrl(jobs.next);
+
+  //   console.log(url, next);
+  // };
 
   const handleInputChange = (e) => {
     setQuery(e.target.value);
@@ -86,6 +94,7 @@ const MainContent = () => {
           handleCityChange={handleCityChange}
         />
       </div>
+
       <div className="jobs">
         <JobsList result={result} />
       </div>

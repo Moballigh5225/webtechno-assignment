@@ -29,9 +29,9 @@ const MainContent = () => {
     setJobs(data);
   };
 
-  useEffect((e) => {
+  useEffect(() => {
     fetchData();
-  }, []);
+  }, [fetchData]);
 
   // // const handleNext = (e) => {
   // //   e.preventDefault();

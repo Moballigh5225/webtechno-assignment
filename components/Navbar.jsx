@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import axios from "axios";
 import { toast } from "react-toastify";
+import Avatar from "@mui/material/Avatar";
+import Stack from "@mui/material/Stack";
 
 const Navbar = () => {
   const [showModal, setShowModal] = useState(false);
@@ -18,6 +20,8 @@ const Navbar = () => {
   const [users, setUsers] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isRegistered, setIsRegistered] = useState(false);
+  const [key, setKey] = useState("");
+  const [isLoggedOut, setIsLoggedOut] = useState(false);
 
   const handleClick = () => {
     setShowModal(false);
@@ -45,12 +49,10 @@ const Navbar = () => {
     const data = await response.data.data;
     const accessToken = data.access;
     const refreshToken = data.refresh;
-    console.log(accessToken, refreshToken, "tokens");
-    console.log(data, "login response ");
-    // Here you can save the tokens in localStorage or session storage
     localStorage.setItem("accessToken", JSON.stringify(accessToken));
-    localStorage.setItem("refreshToken", JSON.stringify(accessToken));
+    localStorage.setItem("refreshToken", JSON.stringify(refreshToken));
     setIsAuthenticated(true);
+    setIsRegistered(true);
     setLoginModal(false);
   };
 
@@ -73,12 +75,22 @@ const Navbar = () => {
         password: password,
       });
       const res = await axios.post(url, body, config);
+      console.log(res.message, "register");
+      // setRegisterResponse(res.message)
       setIsAuthenticated(true);
       setShowModal(false);
-      console.log(res, "register");
     } catch (err) {
       console.error(err);
     }
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+    setUsers({ value: null });
+    setKey(Math.random());
+    setIsLoggedOut;
+    location.reload();
   };
 
   return (
@@ -115,20 +127,31 @@ const Navbar = () => {
             <li className="text-[#1967d2] font-normal text-[15px]">
               <Link href="/">Upload your CV</Link>
             </li>
-            {isAuthenticated ? (
-              <p className="user-username">{users}</p>
+            {users ? (
+              <>
+                <Stack direction="row" spacing={4}>
+                  <Avatar>{users[0]?.toUpperCase()}</Avatar>
+                </Stack>
+
+                <div className="text-[#1967d2] bg-[#e2eaf8] border-0 px-2 py-2 rounded-lg font-normal text-[15px] hover:bg-gray-400 active:bg-gray-400 focus:outline-none focus:ring focus:ring-violet-300 ">
+                  <button onClick={handleLogout}>Logout</button>
+                </div>
+              </>
             ) : (
-              <li className="text-[#1967d2] bg-[#e2eaf8] border-0 px-2 py-2 rounded-lg font-normal text-[15px] hover:bg-gray-400 active:bg-gray-400 focus:outline-none focus:ring focus:ring-violet-300 ">
-                <button onClick={() => setLoginModal(true)}>Login</button>
-              </li>
+              <>
+                <li className="text-[#1967d2] bg-[#e2eaf8] border-0 px-2 py-2 rounded-lg font-normal text-[15px] hover:bg-gray-400 active:bg-gray-400 focus:outline-none focus:ring focus:ring-violet-300 ">
+                  <button onClick={() => setLoginModal(true)}>Login</button>
+                </li>
+                {isRegistered ? (
+                  ""
+                ) : (
+                  <li className="text-[#1967d2] bg-[#e2eaf8] border-0 px-2 py-2 rounded-lg font-normal text-[15px] hover:bg-gray-400 active:bg-gray-400 focus:outline-none focus:ring focus:ring-violet-300 ">
+                    <button onClick={() => setShowModal(true)}>Register</button>
+                  </li>
+                )}
+              </>
             )}
-            {isRegistered ? (
-              <p></p>
-            ) : (
-              <li className="text-[#1967d2] bg-[#e2eaf8] border-0 px-2 py-2 rounded-lg font-normal text-[15px] hover:bg-gray-400 active:bg-gray-400 focus:outline-none focus:ring focus:ring-violet-300 ">
-                <button onClick={() => setShowModal(true)}>Register</button>
-              </li>
-            )}
+
             <li className="text-white bg-[#1967d2]  border-0 p-2 rounded-lg font-normal text-[15px] hover:bg-violet-600 active:bg-violet-700 focus:outline-none focus:ring focus:ring-violet-300 ">
               <Link href="/">Job Post</Link>
             </li>
